@@ -35,7 +35,19 @@ class Instructor extends Person {
     grade(student) {
         return `${student.name} receives a perfect score on ${subject}`;
     }
+
+    addPoints(student) {
+        let points = Math.floor(Math.random() * 10)
+        student.grade += points
+
+        if (student.grade > 70) {
+            return `${student.name} is ready to graduate.`
+        }
+        
+        return `${student.name}'s current grade is: ${student.grade}`
+    }
 }
+
 
 class Student extends Person {
     constructor({
@@ -45,25 +57,26 @@ class Student extends Person {
         name,
         age,
         location,
-        gender
+        gender,
+        grade = undefined
     }) {
         super({ name, age, location, gender });
         this.previousBackground = previousBackground;
         this.className = className;
         this.favSubject = favSubject;
+        this.grade = grade
     }
 
     listsSubjects() {
-        const result = this.favSubject.forEach(subject => subject);
-        return result;
+        return this.favSubject.map((item , index) => `Favorite Subject ${index + 1}: ${item}`)
     }
 
     PRAssignment(subject) {
-        return `${student.name} has submitted a PR for ${subject}`;
+        return `${this.name} has submitted a PR for ${subject}`;
     }
 
     sprintChallenge(subject) {
-        return `${student.name} has begun sprint challenge on ${subject}`;
+        return `${this.name} has begun sprint challenge on ${subject}`;
     }
 }
 
@@ -94,10 +107,11 @@ class ProjectManager extends Instructor {
     }
 
     debugsCode(student, subject) {
-        return;
-        `${this.name} announces to ${channel}, @channel standy times debugs ${
-            student.name
-        }'s code on ${subject}`;
+        return`${this.name} debugs ${student.name}'s code on ${subject}`
+    }
+
+    addPoints(student) {
+        return super.addPoints(student)
     }
 }
 
@@ -118,16 +132,19 @@ const tom = new Student({
     gender: 'male',
     previousBackground: 'Pilot',
     className: 'CS1000',
-    favSubject: ['React', 'Node.js']
+    favSubject: ['React', 'Node.js'],
+    grade: 50
 });
 
-// previousBackground,
-// className,
-// favSubject,
-// name,
-// age,
-// location,
-// gender
+const john = new ProjectManager({
+    name: 'John',
+    location: 'Hilltop',
+    age: 37,
+    gender: 'male',
+    gradClassName: 'Purple Scissors',
+    favInstructor: 'Dan Abramov',
+    specialty: ['React', 'Node.js', 'Express'],
+    favLanguage: 'JavaScript',
+    catchPhrase: 'This too shall pass.'
+});
 
-console.log(fred.speak());
-console.log(tom.listsSubjects());
